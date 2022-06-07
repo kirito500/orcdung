@@ -11,6 +11,7 @@ var jump = 400
 var gravity = 10
 var rightarea = []
 var leftarea = []
+var mobs = ["skeleton","skeleton1","skeleton2","skeleton3","skeleton4","skeleton5"]
 var last_attack_time = 0
 
 var moving = false
@@ -219,8 +220,7 @@ func _on_AnimatedSprite_animation_finished():
 
 
 func _on_Area2D3_body_entered(body):
-	#print(body.name)
-	if body.name == "skeleton" or body.name == "skeleton1" or body.name == "skeleton2" or body.name == "skeleton3" or body.name == "skeleton4"or body.name == "skeleton5":
+	if body.name in mobs:
 		if true:
 			velocity.x -= trust
 			velocity.y += 30
