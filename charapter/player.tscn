@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=84 format=2]
 
 [ext_resource path="res://charapter/charapter.gd" type="Script" id=1]
 [ext_resource path="res://charapter/sprites/_Run.png" type="Texture" id=2]
@@ -14,7 +14,6 @@
 [ext_resource path="res://charapter/sprites/_Crouch.png" type="Texture" id=12]
 [ext_resource path="res://charapter/sprites/_CrouchAttack.png" type="Texture" id=13]
 [ext_resource path="res://light.png" type="Texture" id=14]
-[ext_resource path="res://spot.png" type="Texture" id=15]
 
 [sub_resource type="RectangleShape2D" id=31]
 extents = Vector2( 99, 184 )
@@ -484,15 +483,11 @@ position = Vector2( 4, 3.99988 )
 scale = Vector2( 0.169978, 0.163384 )
 texture = ExtResource( 14 )
 texture_scale = 3.96
-energy = 0.84
+energy = 0.0
 shadow_enabled = true
 shadow_gradient_length = 39.9
 shadow_filter = 5
 shadow_filter_smooth = 5.0
-
-[node name="Sprite" type="Sprite" parent="Light2D14"]
-position = Vector2( 3, 3 )
-texture = ExtResource( 15 )
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

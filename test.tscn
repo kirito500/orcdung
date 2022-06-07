@@ -49,7 +49,6 @@ position = Vector2( 497, 390 )
 script = ExtResource( 3 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0, 0, 0, 1 )
 
 [node name="LightShadowBackground" type="Sprite" parent="."]
 position = Vector2( 1533, -1171 )
