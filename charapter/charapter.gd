@@ -1,6 +1,8 @@
 
 extends KinematicBody2D
 
+signal death
+
 const max_speed = 400
 
 var target = null
@@ -11,7 +13,8 @@ var jump = 400
 var gravity = 10
 var rightarea = []
 var leftarea = []
-var mobs = ["skeleton","skeleton1","skeleton2","skeleton3","skeleton4","skeleton5"]
+var mobs = ["skeleton","skeleton1","skeleton2","skeleton3","skeleton4","skeleton5","slime"]
+var attacks = ["attack","attack2","crouch_attack"]
 var last_attack_time = 0
 
 var moving = false
@@ -32,7 +35,7 @@ var health_max = 100
 
 func _process(delta):
 	
-	if _animated_sprite.animation != "attack" and _animated_sprite.animation != "attack2" and _animated_sprite.animation != "crouch_attack":
+	if not _animated_sprite.animation in attacks:
 		attack_playing = false
 		
 	velocity.y += gravity
@@ -107,7 +110,7 @@ func get_input():
 	elif !is_on_floor() and !attack_playing: 
 		_animated_sprite.play("jump")
 	
-	if Input.is_action_pressed("mouse_left") and _animated_sprite.animation != "attack" and _animated_sprite.animation != "attack2" and _animated_sprite.animation != "crouch_attack":
+	if Input.is_action_pressed("mouse_left") and not _animated_sprite.animation in attacks:
 		attack()
 		
 	if Input.is_action_pressed("space") and is_on_floor():
@@ -148,11 +151,11 @@ func attack():
 					if _animated_sprite.flip_h:
 						for target in leftarea:
 							if target != null:
-								target.hit(attack_damage+attack_damage*0.1*combo)
+								target.hit(attack_damage + attack_damage * 0.1 * combo)
 					else:
 						for target in rightarea:
 							if target != null:
-								target.hit(attack_damage+attack_damage*0.1*combo)
+								target.hit(attack_damage + attack_damage * 0.1 * combo)
 					_animated_sprite.play("attack2")
 				else: 
 					if _animated_sprite.flip_h:
@@ -221,16 +224,5 @@ func _on_AnimatedSprite_animation_finished():
 
 func _on_Area2D3_body_entered(body):
 	if body.name in mobs:
-		if true:
-			velocity.x -= trust
-			velocity.y += 30
-		else:
-			velocity.x += trust
-			velocity.y -= 10
-			
-		var collision = move_and_collide(velocity * 1)
-		if collision:
-			velocity = velocity.slide(collision.normal)
-		velocity = move_and_slide(velocity, Vector2.UP) 
 		hit(30)
 		

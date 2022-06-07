@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+signal death
 
 var velocity = Vector2(0,0)
 var gravity = 1000
