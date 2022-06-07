@@ -255,6 +255,12 @@ shadow_filter_smooth = 5.0
 position = Vector2( 3, 3 )
 texture = ExtResource( 9 )
 
+[node name="slime2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 697, -1577 )
+
+[node name="slime3" parent="." instance=ExtResource( 5 )]
+position = Vector2( -58, 319 )
+
 [connection signal="death" from="skeleton" to="." method="_on_skeleton_death"]
 [connection signal="death" from="skeleton2" to="." method="_on_skeleton2_death"]
 [connection signal="death" from="skeleton3" to="." method="_on_skeleton3_death"]
