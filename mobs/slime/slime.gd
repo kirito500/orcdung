@@ -33,10 +33,12 @@ func _process(delta):
 	velocity = move_and_slide(velocity, Vector2.UP) 
 
 
-func hit(damage):
+func hit(damage,direction):
 	health -= damage
 	if health > 0:
 		$AnimationPlayer.play("hit")
+		velocity.x += 100*direction
+		velocity.y -= 1000
 	else:
 		set_process(false)
 		$AnimatedSprite.play("death")

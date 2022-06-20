@@ -113,7 +113,7 @@ func get_input():
 		moving = false
 		
 	
-	if Input.is_action_pressed("mouse_left") and not _animated_sprite.animation in attacks:
+	if Input.is_action_pressed("mouse_left") and not _animated_sprite.animation in attacks and OS.get_ticks_msec() > next_attack_time:
 		attack()
 		
 	if Input.is_action_pressed("space") and is_on_floor() and !attack_playing:
@@ -130,49 +130,36 @@ func get_input():
 func attack():
 		var now = OS.get_ticks_msec()
 		moving = false
-		if !attack_playing:
-			if crouch:
-				if _animated_sprite.flip_h:
-					for target in leftarea:
-						if target != null:
-							target.hit(attack_damage)
-				else:
-					for target in rightarea:
-						if target != null:
-							target.hit(attack_damage)
-				_animated_sprite.play("crouch_attack")
-			else:
-				if now < last_attack_time + combo_time:
-					combo += 1
-				else:
-					combo = 1
-				
-				if combo > max_combo:
-					combo = 1
-				
-				if combo == 2:
-					if _animated_sprite.flip_h:
-						for target in leftarea:
-							if target != null:
-								target.hit(attack_damage + attack_damage * 0.1 * combo,-1)
-					else:
-						for target in rightarea:
-							if target != null:
-								target.hit(attack_damage + attack_damage * 0.1 * combo,1)
-					_animated_sprite.play("attack2")
-				else: 
-					if _animated_sprite.flip_h:
-						for target in leftarea:
-							if target != null:
-								target.hit(attack_damage,-1)
-					else:
-						for target in rightarea:
-							if target != null:
-								target.hit(attack_damage,1)
-					_animated_sprite.play("attack")
+		
+		if now < last_attack_time + combo_time:
+			combo += 1
+		else:
+			combo = 1
+		if combo >= max_combo:
+			next_attack_time = now + attack_cooldown_time
+			if combo > max_combo:
+				combo = 1
+		
+		if crouch:
+			_animated_sprite.play("crouch_attack")
+			combo = 0
+		else:
+			if combo == 1:
+				_animated_sprite.play("attack")
+			elif combo == 2:
+				_animated_sprite.play("attack2")
 			
-			attack_playing = true
-			last_attack_time = now
+		if _animated_sprite.flip_h:
+			for target in leftarea:
+				if target != null:
+					target.hit(attack_damage + attack_damage * 0.1 * combo,-1)
+		else:
+			for target in rightarea:
+				if target != null:
+					target.hit(attack_damage + attack_damage * 0.1 * combo,1)
+		
+		last_attack_time = now
+		attack_playing = true
 
 
 	
