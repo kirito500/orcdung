@@ -3,7 +3,7 @@ extends KinematicBody2D
 signal death
 
 var velocity = Vector2(0,0)
-var gravity = 1000
+var gravity = 50
 var trust = 50
 var jump = 400
 var max_speed = 400
@@ -36,8 +36,9 @@ func hit(damage,direction):
 	health -= damage
 	if health > 0:
 		$AnimationPlayer.play("hit")
-		velocity.x += 100*direction
-		velocity.y -= 1000
+		velocity.x += 50*direction
+		velocity.y -= 100
+		
 		
 	else:
 		$Timer.stop()
