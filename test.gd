@@ -3,6 +3,7 @@ extends Node2D
 
 var skeletons_deaths = 0
 var skeletons = 8
+export var gravity = 10
 
 
 # Called when the node enters the scene tree for the first time.

@@ -68,6 +68,9 @@ func _process(delta):
 	
 	get_input()
 	
+	$Camera2D/health.value = health
+	$Camera2D/health.max_value = health_max
+	
 	
 	if is_on_floor() and !attack_playing and !moving:
 		if crouch:
@@ -77,6 +80,7 @@ func _process(delta):
 		
 	elif !is_on_floor() and !attack_playing: 
 		_animated_sprite.play("jump")
+		crouch = false
 	
 
 func get_input():
@@ -169,6 +173,7 @@ func hit(damage,direction):
 		$AnimationPlayer.play("hit")
 		$AnimatedSprite.play("hit")
 	else:
+		health = 0
 		set_process(false)
 		$AnimatedSprite.play("death")
 		emit_signal("death")
