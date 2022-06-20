@@ -20,7 +20,6 @@ var last_attack_time = 0
 var moving = false
 var attack_playing = false
 var crouch = false
-var can_moe
 
 var attack_cooldown_time = 1000
 var next_attack_time = 0
