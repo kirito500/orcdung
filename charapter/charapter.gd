@@ -143,12 +143,13 @@ func attack():
 		if crouch:
 			_animated_sprite.play("crouch_attack")
 			combo = 0
+			next_attack_time = now + attack_cooldown_time/2
 		else:
 			if combo == 1:
 				_animated_sprite.play("attack")
 			elif combo == 2:
 				_animated_sprite.play("attack2")
-			
+		
 		if _animated_sprite.flip_h:
 			for target in leftarea:
 				if target != null:
