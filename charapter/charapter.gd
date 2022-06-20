@@ -58,7 +58,7 @@ func _process(delta):
 	if is_on_floor() and !moving:
 		velocity.x -= velocity.x*0.4
 	
-	print(attack_playing)
+	#print(attack_playing)
 	
 	
 	var collision = move_and_collide(velocity * delta)
