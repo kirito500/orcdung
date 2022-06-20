@@ -56,7 +56,7 @@ func _process(delta):
 		velocity.x = -max_sped
 		
 	if is_on_floor() and !moving:
-		velocity.x -= velocity.x*0.2
+		velocity.x -= velocity.x*0.4
 	
 	print(attack_playing)
 	
