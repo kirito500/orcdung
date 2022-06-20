@@ -20,6 +20,7 @@ var last_attack_time = 0
 var moving = false
 var attack_playing = false
 var crouch = false
+var can_moe
 
 var attack_cooldown_time = 1000
 var next_attack_time = 0
@@ -37,17 +38,19 @@ func _process(delta):
 	
 	if not _animated_sprite.animation in attacks:
 		attack_playing = false
-		
+	
 	velocity.y += gravity
 	
 	var max_sped = 0
+	
 	$stay_shape.disabled = crouch
 	$crouch_shape.disabled = !crouch
+	
 	if crouch:
 		max_sped = max_crouch_speed
 	else:
 		max_sped = max_speed
-	
+		
 	if velocity.x > max_sped:
 		velocity.x = max_sped
 	elif velocity.x < -max_sped:
@@ -56,9 +59,9 @@ func _process(delta):
 	if is_on_floor() and !moving:
 		velocity.x -= velocity.x*0.2
 	
-	#print(combo)
+	print(attack_playing)
 	
-		
+	
 	var collision = move_and_collide(velocity * delta)
 	if collision:
 		velocity = velocity.slide(collision.normal)
@@ -66,57 +69,56 @@ func _process(delta):
 	
 	get_input()
 	
+	
+	if is_on_floor() and !attack_playing and !moving:
+		if crouch:
+			_animated_sprite.play("crouch_idle")
+		else:
+			_animated_sprite.play("stay")
+		
+	elif !is_on_floor() and !attack_playing: 
+		_animated_sprite.play("jump")
+	
 
 func get_input():
 	if Input.is_action_pressed("right"):
-		
-		if is_on_floor():
-			if !attack_playing:
-				if crouch:
-					_animated_sprite.play("crouch_walk")
-				else:
-					_animated_sprite.play("run")
-				velocity.x += trust
-		else:
-			if !attack_playing:
-				_animated_sprite.play("jump")
-				velocity.x += trust*0.1
-		moving = true
+		if is_on_floor() and !attack_playing:
+			if crouch:
+				_animated_sprite.play("crouch_walk")
+			else:
+				_animated_sprite.play("run")
+			velocity.x += trust
+			moving = true
+		elif !attack_playing:
+			_animated_sprite.play("jump")
+			velocity.x += trust * 0.1
+			moving = true
 		_animated_sprite.flip_h = false
 		
 	elif Input.is_action_pressed("left"):
-		
-		if is_on_floor():
-			if !attack_playing:
-				if crouch:
-					_animated_sprite.play("crouch_walk")
-				else:
-					_animated_sprite.play("run")
-				velocity.x -= trust
-		else:
-			if !attack_playing:
-				_animated_sprite.play("jump")
-				velocity.x -= trust*0.1
-		moving = true
-		_animated_sprite.flip_h = true
-		
-	elif is_on_floor(): 
-		if !attack_playing:
+		if is_on_floor() and !attack_playing:
 			if crouch:
-				_animated_sprite.play("crouch_idle")
+				_animated_sprite.play("crouch_walk")
 			else:
-				_animated_sprite.play("stay")
+				_animated_sprite.play("run")
+			velocity.x -= trust
+			moving = true
+		elif !attack_playing:
+			_animated_sprite.play("jump")
+			velocity.x -= trust * 0.1
+			moving = true
+		_animated_sprite.flip_h = true
+	
+	else:
 		moving = false
-	elif !is_on_floor() and !attack_playing: 
-		_animated_sprite.play("jump")
+		
 	
 	if Input.is_action_pressed("mouse_left") and not _animated_sprite.animation in attacks:
 		attack()
 		
-	if Input.is_action_pressed("space") and is_on_floor():
-		if !attack_playing:
-			_animated_sprite.play("jump")
-			velocity.y -= jump
+	if Input.is_action_pressed("space") and is_on_floor() and !attack_playing:
+		_animated_sprite.play("jump")
+		velocity.y -= jump
 	
 	if Input.is_action_just_pressed("ctrl"):
 		if crouch:
@@ -127,6 +129,7 @@ func get_input():
 
 func attack():
 		var now = OS.get_ticks_msec()
+		moving = false
 		if !attack_playing:
 			if crouch:
 				if _animated_sprite.flip_h:
@@ -151,21 +154,21 @@ func attack():
 					if _animated_sprite.flip_h:
 						for target in leftarea:
 							if target != null:
-								target.hit(attack_damage + attack_damage * 0.1 * combo)
+								target.hit(attack_damage + attack_damage * 0.1 * combo,-1)
 					else:
 						for target in rightarea:
 							if target != null:
-								target.hit(attack_damage + attack_damage * 0.1 * combo)
+								target.hit(attack_damage + attack_damage * 0.1 * combo,1)
 					_animated_sprite.play("attack2")
 				else: 
 					if _animated_sprite.flip_h:
 						for target in leftarea:
 							if target != null:
-								target.hit(attack_damage)
+								target.hit(attack_damage,-1)
 					else:
 						for target in rightarea:
 							if target != null:
-								target.hit(attack_damage)
+								target.hit(attack_damage,1)
 					_animated_sprite.play("attack")
 			
 			attack_playing = true
@@ -173,7 +176,7 @@ func attack():
 
 
 	
-func hit(damage):
+func hit(damage,direction):
 	health -= damage
 	if health > 0:
 		$AnimationPlayer.play("hit")
@@ -224,5 +227,5 @@ func _on_AnimatedSprite_animation_finished():
 
 func _on_Area2D3_body_entered(body):
 	if body.name in mobs:
-		hit(30)
+		hit(30,1)
 		

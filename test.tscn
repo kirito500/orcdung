@@ -45,7 +45,7 @@ points = PoolVector2Array( 162, 162, 0, 162, 0, 0, 162, 0 )
 0/z_index = 0
 
 [node name="Node2D" type="Node2D"]
-position = Vector2( 497, 390 )
+position = Vector2( -1321, 889 )
 script = ExtResource( 3 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
