@@ -504,6 +504,7 @@ shape = SubResource( 31 )
 light_mask = 2
 position = Vector2( 1, 1.78814e-07 )
 scale = Vector2( 62.4534, 37.8665 )
+enabled = false
 texture = ExtResource( 14 )
 texture_scale = 50.0
 shadow_enabled = true

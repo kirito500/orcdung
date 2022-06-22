@@ -16,6 +16,7 @@ var leftarea = []
 var mobs = ["skeleton","skeleton1","skeleton2","skeleton3","skeleton4","skeleton5","slime"]
 var attacks = ["attack","attack2","crouch_attack"]
 var last_attack_time = 0
+var last_floor = 0
 
 var moving = false
 var attack_playing = false
@@ -55,10 +56,13 @@ func _process(delta):
 	elif velocity.x < -max_sped:
 		velocity.x = -max_sped
 		
-	if is_on_floor() and !moving:
-		velocity.x -= velocity.x*0.4
-		if velocity.x > -16 and velocity.x < 16:
-			velocity.x = 0
+	if is_on_floor():
+		last_floor = OS.get_ticks_msec()
+		if !moving:
+			velocity.x -= velocity.x*0.4
+			if velocity.x > -16 and velocity.x < 16:
+				velocity.x = 0
+	
 	
 	print(velocity.y)
 	
@@ -80,7 +84,7 @@ func _process(delta):
 		else:
 			_animated_sprite.play("stay")
 		
-	elif !is_on_floor() and !attack_playing: 
+	elif !is_on_floor() and !attack_playing and OS.get_ticks_msec() > last_floor + 100: 
 		_animated_sprite.play("jump")
 		crouch = false
 	

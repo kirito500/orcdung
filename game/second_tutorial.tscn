@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://charapter/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scene sprites/cave_lake.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 2848.5, 218.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 1043.25, 15.25 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1564, -614 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 2 )
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 481, -56 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 125, 602 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 3297.75, 357.75 )
+scale = Vector2( 1, 1.00504 )
+shape = SubResource( 2 )

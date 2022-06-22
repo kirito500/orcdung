@@ -29,7 +29,7 @@ func _process(delta):
 	var collision = move_and_collide(velocity * delta)
 	if collision:
 		velocity = velocity.slide(collision.normal)
-	velocity = move_and_slide(velocity, Vector2.UP) 
+	velocity = move_and_slide(velocity, Vector2.UP)
 
 
 func hit(damage,direction):

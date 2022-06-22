@@ -1,11 +1,60 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
+[ext_resource path="res://scene sprites/priziv.png" type="Texture" id=1]
 [ext_resource path="res://charapter/player.tscn" type="PackedScene" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 563, 61.625 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 181.5, 66.25 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 67.5, 306.5 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 170.75, 1315.25 )
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 525, 244 )
+scale = Vector2( 1.7, 1.7 )
+texture = ExtResource( 1 )
+
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0, 0, 0, 1 )
+visible = false
+color = Color( 0.545098, 0.545098, 0.545098, 1 )
 
 [node name="player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1327, 412 )
+position = Vector2( 514, 377 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 1259, 532.25 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -229, 531.625 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 515.5, 536.25 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 1876.5, 286.5 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -868, 287 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 108, 1866 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 893, 1876 )
+shape = SubResource( 4 )
