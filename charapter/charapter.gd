@@ -9,8 +9,8 @@ var target = null
 onready var _animated_sprite = $AnimatedSprite
 var velocity = Vector2(0,-1)
 var trust = 50
-var jump = 400
 var gravity = 10
+var jump = gravity*40
 var rightarea = []
 var leftarea = []
 var mobs = ["skeleton","skeleton1","skeleton2","skeleton3","skeleton4","skeleton5","slime"]
@@ -57,8 +57,10 @@ func _process(delta):
 		
 	if is_on_floor() and !moving:
 		velocity.x -= velocity.x*0.4
+		if velocity.x > -16 and velocity.x < 16:
+			velocity.x = 0
 	
-	#print(attack_playing)
+	print(velocity.y)
 	
 	
 	var collision = move_and_collide(velocity * delta)
@@ -119,7 +121,7 @@ func get_input():
 	if Input.is_action_pressed("mouse_left") and not _animated_sprite.animation in attacks and OS.get_ticks_msec() > next_attack_time:
 		attack()
 		
-	if Input.is_action_pressed("space") and is_on_floor() and !attack_playing:
+	if Input.is_action_pressed("space") and is_on_floor() and !attack_playing and velocity.y > -jump/2:
 		_animated_sprite.play("jump")
 		velocity.y -= jump
 	
@@ -208,11 +210,7 @@ func _on_Area2D_body_exited(body):
 
 
 func _on_AnimatedSprite_animation_finished():
-	if _animated_sprite.animation == "attack":
-		attack_playing = false
-	elif _animated_sprite.animation == "attack2":
-		attack_playing = false
-	if _animated_sprite.animation == "crouch_attack":
+	if _animated_sprite.animation in attacks:
 		attack_playing = false
 		
 
